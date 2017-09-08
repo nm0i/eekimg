@@ -21,6 +21,7 @@ catch {
 }
 
 set fileID [open urls.txt r]
+set i 1
 
 while {[gets $fileID line] != -1} {
 	set key [::sha2::sha256 $line]
@@ -39,6 +40,8 @@ while {[gets $fileID line] != -1} {
 		set now [clock seconds]
 		
 		vt::sda_fgyellow
+		vt::wr "$i "
+		vt::sda_fgwhite
 		vt::wr "$now $key | $line\n"
 		db eval {
 			INSERT OR REPLACE INTO urlmap (hash,url,t) VALUES (:key,:line,:now);                         
