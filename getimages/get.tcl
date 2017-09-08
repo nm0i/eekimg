@@ -50,7 +50,7 @@ while {[gets $fileID line] != -1} {
 		}
 		
 		vt::sda_fgblue
-		exec -ignorestderr wget --timeout=10 -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36" --no-check-certificate $line -O "images/${key}"
+		exec -ignorestderr wget --timeout=5 --tries=1 -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36" --no-check-certificate $line -O "images/${key}"
 		sleep 1
 	}
 }
