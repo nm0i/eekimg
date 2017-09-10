@@ -74,7 +74,7 @@ while {[gets $fileListing line] != -1} {
 		}
 		vt::sda_fgyellow
 		vt::wr "Making a thumbnail for ${line}..\n"
-		exec -ignorestderr convert -scale $thumbScaling "images/${line}" "thumbs/${line}"
+		exec -ignorestderr convert -scale $thumbScaling "images/${line}" "thumbs/${line}.jpg"
 		vt::sda_fgmagenta
 		vt::wr "Removing file images/${line}\n"
 		file delete -- "images/${line}"
