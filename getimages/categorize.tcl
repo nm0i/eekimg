@@ -70,7 +70,7 @@ while {[gets $fileListing line] != -1} {
 	} else {
 		set now [clock seconds]
 		db eval {
-			INSERT OR REPLACE INTO descs (hash,desc,t) VALUES (:line,:desc,:now);                         
+			INSERT OR REPLACE INTO descs (hash,desc,t) VALUES (:line,:imgDesc,:now);                         
 		}
 		vt::sda_fgyellow
 		vt::wr "Making a thumbnail for ${line}..\n"
