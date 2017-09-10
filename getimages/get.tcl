@@ -4,6 +4,8 @@ package require term::ansi::send
 term::ansi::send::import vt
 vt::init
 
+cd [file dirname [file normalize [info script]]]
+
 package require sha256
 package require Tclx
 
@@ -20,10 +22,11 @@ catch {
 	}
 }
 
-set fileID [open urls.txt r]
+set fileURLS [open urls.txt r]
+set fileListing [open files.txt a]
 set i 0
 
-while {[gets $fileID line] != -1} {
+while {[gets $fileURLS line] != -1} {
 	set key [::sha2::sha256 $line]
 	catch {
 
@@ -52,6 +55,8 @@ while {[gets $fileID line] != -1} {
 		db eval {
 			INSERT OR REPLACE INTO urlmap (hash,url,t) VALUES (:key,:line,:now);                         
 		}
+
+		puts $fileListing $key		
 		
 		vt::sda_fgblue
 		exec -ignorestderr wget --timeout=10 --tries=1 -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36" --no-check-certificate $line -O "images/${key}"
@@ -60,5 +65,7 @@ while {[gets $fileID line] != -1} {
 }
 
 db close
+close $fileURLS
+close $fileListing
 vt::sda_reset
 
