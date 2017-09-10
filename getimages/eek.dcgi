@@ -1,0 +1,57 @@
+#!/usr/bin/tclsh
+
+set resultsPerPage 50
+set baseDir "/eekimg"
+
+package require sqlite3
+sqlite db urlmap.db
+
+set pageNum [lindex $argv 0]
+if {$pageNum == ""} {
+	set pageNum 0
+}
+
+if { ($pageNum < 0) || ($pageNum > 1000) } {
+	puts "Out of range!"
+	exit
+}
+
+set scriptName [file tail [info script]]
+
+# set imageCount [db eval {
+# 	SELECT count(*)
+# 	FROM descs
+# }]
+# set pageCount [expr {$imageCount / $resultsPerPage - 1}]
+
+puts "EEK! Image board!"
+puts ""
+
+db eval {
+	SELECT descs.hash, desc, descs.t, urlmap.url
+	FROM descs
+	INNER JOIN urlmap on urlmap.hash = descs.hash
+	ORDER BY descs.t DESC
+	LIMIT :resultsPerPage
+	OFFSET :pageNum
+} response {
+	if 	{$response(desc) == "" } {
+		set imgDesc "No fun part"
+	} {
+		set imgDesc $response(desc)
+	}
+
+	set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
+
+	puts "\[I|${imgDesc} - $t|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
+	puts "\[I|The original|URL:${response(url)}|server|port\]"
+	puts ""
+	
+}
+
+puts "------------------------------------------------------------------------"
+puts {[1|Back to the root|/|server|port]}
+puts "[clock format [clock seconds] -format "%H:%M:%S %Y-%m-%d"]"
+db close
+
+
