@@ -57,8 +57,9 @@ puts {<!DOCTYPE html>}
 puts {<html xmlns="http://www.w3.org/1999/HTML" lang="en" xml:lang="en">}
 puts {<!-- L29ah stinks -->}
 puts {  <head>}
-puts {  <meta charset="UTF-8"/>}
-puts {	<title>EEK imageboard!</title>}
+puts {    <meta charset="UTF-8"/>}
+puts {    <link rel="alternate" title="EEK! Image board. RSS feed." href="rss.tcl" type="application/rss+xml"/>}
+puts {	  <title>EEK imageboard!</title>}
 puts {  </head>}
 puts {  <body>}
 puts {    <section>}
@@ -101,8 +102,9 @@ db eval {
 	puts {}
 	
 }
-puts {    </section>}
+puts "    <a href=\"rss.tcl\">RSS</a>"
 puts "    Navigate: $pageSelector"
+puts {    </section>}
 puts {  </body>}
 puts {</html>}
 
