@@ -37,7 +37,7 @@ if {$pageNum != 0 } {
 } {
 	set pageSelector "« "
 }
-if {$pageNum >= 1} {
+if {$pageNum > 1} {
 	set pageSelector "${pageSelector}<a href=\"${scriptName}?p=[expr {$pageNum - 1}]\">← </a>"
 } {
 	set pageSelector "${pageSelector}← "
@@ -59,14 +59,14 @@ puts {<!-- L29ah stinks -->}
 puts {  <head>}
 puts {    <meta charset="UTF-8"/>}
 puts {    <link rel="alternate" title="EEK! Image board. RSS feed." href="rss.tcl" type="application/rss+xml"/>}
-puts {	  <title>EEK imageboard!</title>}
+puts {	  <title>EEK! Image board!</title>}
 puts {  </head>}
 puts {  <body>}
 puts {    <section>}
 puts "    <a href=\"$scriptName\">"
 puts {    <h1>Eek! Image Board!</h1>}
 puts {    </a>}
-puts "    Navigate: $pageSelector"
+puts "    Navigate: $pageSelector<br\>"
 
 db eval {
 	SELECT descs.hash, desc, descs.t, urlmap.url
@@ -93,7 +93,7 @@ db eval {
 	}
 	puts "          <img src=\"thumbs/${response(hash)}.jpg\" alt=\"$imgDesc\"/><br/>"
 	puts "        </a>"
-	puts "        click on image to view the next one<br/>"
+
 	puts "        <a href=\"$response(url)\">"
 	puts "          click here to view the original"
 	puts "        </a><br/>"
@@ -102,8 +102,9 @@ db eval {
 	puts {}
 	
 }
-puts "    <a href=\"rss.tcl\">RSS</a>"
-puts "    Navigate: $pageSelector"
+puts "    <br/>click on the image to view the next page<br/>"
+puts "    Navigate: ${pageSelector}<br/>"
+puts "    <a href=\"rss.tcl\">RSS</a><br/>"
 puts {    </section>}
 puts {  </body>}
 puts {</html>}
