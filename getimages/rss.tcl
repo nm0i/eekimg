@@ -46,7 +46,7 @@ db eval {
 	puts "added $t <br/>"
 	puts " \]\]>"
     puts "</description>"
-    puts "<pubDate>t</pubDate>"
+    puts "<pubDate>$t</pubDate>"
     puts "</item>"
 
 	puts {}

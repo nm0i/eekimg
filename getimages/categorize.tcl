@@ -81,6 +81,10 @@ while {[gets $fileListing line] != -1} {
 	}
 }
 
+vt::sda_fgyellow
+vt::wr "Syncing...\n"
+exec ./sync.sh
+
 close $fileListing
 db close
 vt::sda_reset
