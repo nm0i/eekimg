@@ -25,6 +25,7 @@ set scriptName [file tail [info script]]
 # set pageCount [expr {$imageCount / $resultsPerPage - 1}]
 
 puts "EEK! Image board!"
+puts "Have some images!"
 puts ""
 
 db eval {

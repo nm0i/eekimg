@@ -95,14 +95,14 @@ db eval {
 	puts "        </a>"
 
 	puts "        <a href=\"$response(url)\">"
-	puts "          click here to view the original"
+	puts "          the original"
 	puts "        </a><br/>"
 	puts "        added $t <br/>"
 	puts {      </section>}
 	puts {}
 	
 }
-puts "    <br/>click on the image to view the next page<br/>"
+puts "    <br/>tap image to view the next<br/>"
 puts "    Navigate: ${pageSelector}<br/>"
 puts "    <a href=\"rss.tcl\">RSS</a><br/>"
 puts {    </section>}
