@@ -54,7 +54,14 @@ while {[gets $fileListing line] != -1} {
 	}
 	
 	vt::sda_fgblue
-	exec -ignorestderr $imageViewer "images/${line}" &
+	if [catch {
+		exec $imageViewer "images/${line}" &
+	} {
+		vt::sda_fgmagenta
+		vt::wr "Removing file images/${line}\n"
+		file delete -- "images/${line}"
+		continue
+	}
 
 	vt::wr "Description, (r)emove or (q)quit:\n"
 	vt::sda_fgwhite
