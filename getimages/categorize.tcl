@@ -7,9 +7,6 @@ package require term::ansi::send
 term::ansi::send::import vt
 vt::init
 
-package require tclreadline
-::tclreadline::readline initialize .categorize_history
-
 cd [file dirname [file normalize [info script]]]
 
 package require sqlite3
@@ -54,9 +51,9 @@ while {[gets $fileListing line] != -1} {
 	}
 	
 	vt::sda_fgblue
-	if [catch {
+	if {[catch {
 		exec $imageViewer "images/${line}" &
-	} {
+	}]} {
 		vt::sda_fgmagenta
 		vt::wr "Removing file images/${line}\n"
 		file delete -- "images/${line}"
@@ -65,7 +62,7 @@ while {[gets $fileListing line] != -1} {
 
 	vt::wr "Description, (r)emove or (q)quit:\n"
 	vt::sda_fgwhite
-	set imgDesc [::tclreadline::readline read ""]
+	gets stdin imgDesc
 	if {$imgDesc == "r"} {
 		vt::sda_fgmagenta
 		vt::wr "Removing file images/${line}\n"
@@ -89,8 +86,10 @@ while {[gets $fileListing line] != -1} {
 }
 
 vt::sda_fgyellow
-vt::wr "Syncing...\n"
-exec ./sync.sh
+if {[file exists sync.sh]} {
+vt::wr "Syncing with server...\n"
+	exec ./sync.sh
+}
 
 close $fileListing
 db close
