@@ -1,6 +1,6 @@
 #!/usr/bin/tclsh
 
-set thumbScaling "640x"
+set thumbScaling "640>x"
 set imageViewer "feh"
 
 package require term::ansi::send
@@ -36,7 +36,7 @@ while {[gets $fileListing line] != -1} {
 
 	if {! [file exists "images/${line}"]} {
 		vt::sda_fgred
-		vt::wr "No such file. Old files.txt?.. Skipping\n"
+		vt::wr "No such file. Probably old files.txt, skipping.\n"
 		continue
 	}
 
@@ -55,6 +55,7 @@ while {[gets $fileListing line] != -1} {
 		exec $imageViewer "images/${line}" &
 	}]} {
 		vt::sda_fgmagenta
+		vt::wr "Image viewer failed to open images/${line}\n"
 		vt::wr "Removing file images/${line}\n"
 		file delete -- "images/${line}"
 		continue
@@ -87,7 +88,7 @@ while {[gets $fileListing line] != -1} {
 
 vt::sda_fgyellow
 if {[file exists sync.sh]} {
-vt::wr "Syncing with server...\n"
+	vt::wr "Syncing with server...\n"
 	exec ./sync.sh
 }
 

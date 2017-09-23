@@ -1,6 +1,6 @@
 #!/usr/bin/tclsh
 
-set resultsPerPage 50
+set resultsPerPage 100
 set baseDir "/eekimg"
 
 package require sqlite3
@@ -45,7 +45,7 @@ db eval {
 	set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
 
 	puts "\[I|${imgDesc} - $t|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
-	puts "\[I|The original|URL:${response(url)}|server|port\]"
+	puts "\[I|Source|URL:${response(url)}|server|port\]"
 	puts ""
 	
 }

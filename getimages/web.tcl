@@ -102,7 +102,7 @@ db eval {
 	puts {}
 	
 }
-puts "    <br/>tap image to view the next<br/>"
+puts "    <br/>tap image for next<br/>"
 puts "    Navigate: ${pageSelector}<br/>"
 puts "    <a href=\"rss.tcl\">RSS</a><br/>"
 puts {    </section>}
