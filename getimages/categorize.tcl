@@ -12,6 +12,8 @@ cd [file dirname [file normalize [info script]]]
 package require sqlite3
 sqlite db urlmap.db
 
+# Table for image descriptions: hash, description, unix time (of
+# description making).
 catch {
 	db eval {
 		CREATE TABLE IF NOT EXISTS descs(
@@ -22,6 +24,7 @@ catch {
 	}
 }
 
+# Opening text file with list of hashes to process
 if {[catch {
 	set fileListing [open files.txt r]}
 	]} {
@@ -30,6 +33,7 @@ if {[catch {
 	exit
 }
 
+# For each hash in that file...
 while {[gets $fileListing line] != -1} {
 	vt::sda_fgblue
 	vt::wr "Categorizing $line.\n"
@@ -40,6 +44,8 @@ while {[gets $fileListing line] != -1} {
 		continue
 	}
 
+
+	# Checking whether that hash already has a description
 	set response [db eval {
 		SELECT * FROM descs WHERE hash = :line
 	}]
@@ -49,7 +55,18 @@ while {[gets $fileListing line] != -1} {
 		vt::wr "hash:$line\nAlready exists in the db, skipping.\n"
 		continue
 	}
-	
+
+	# Displaying URL for that hash
+	set response [db eval {
+		SELECT url FROM urlmap WHERE hash = :line
+	}]
+
+	vt::sda_fggreen
+	vt::wr "URL: $response\n"
+
+	# If image viewer fails it most likely corrupted file or not an
+	# image at all, so removing its file. Implies having image viewer
+	# that can have non-zero exit...
 	vt::sda_fgblue
 	if {[catch {
 		exec $imageViewer "images/${line}" &
@@ -84,12 +101,6 @@ while {[gets $fileListing line] != -1} {
 		vt::wr "Removing file images/${line}\n"
 		file delete -- "images/${line}"
 	}
-}
-
-vt::sda_fgyellow
-if {[file exists sync.sh]} {
-	vt::wr "Syncing with server...\n"
-	exec ./sync.sh
 }
 
 close $fileListing
