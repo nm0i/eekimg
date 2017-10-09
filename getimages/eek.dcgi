@@ -1,31 +1,28 @@
 #!/usr/bin/tclsh
 
-set resultsPerPage 100
+set resultsPerPage 16
 set baseDir "/eekimg"
 
 package require sqlite3
 sqlite db urlmap.db
 
-set pageNum [lindex $argv 0]
-if {$pageNum == ""} {
+set pageNum [lindex $argv 1]
+if {$pageNum == {}} {
 	set pageNum 0
 }
 
-if { ($pageNum < 0) || ($pageNum > 1000) } {
-	puts "Out of range!"
+if {! [regexp {^[0-9]+$} $pageNum ] } {
+	puts "Malformed query"
 	exit
 }
 
 set scriptName [file tail [info script]]
 
-# set imageCount [db eval {
-# 	SELECT count(*)
-# 	FROM descs
-# }]
-# set pageCount [expr {$imageCount / $resultsPerPage - 1}]
+set boardOffset [expr {$resultsPerPage * $pageNum}]
+set nextPage "\[1|Next page|${baseDir}/eek.dcgi?[expr {$pageNum + 1}]|server|port\]"
 
-puts "EEK! Image board!"
-puts "Have some images!"
+puts "Have some images. Page no. $pageNum."
+puts $nextPage
 puts ""
 
 db eval {
@@ -34,7 +31,7 @@ db eval {
 	INNER JOIN urlmap on urlmap.hash = descs.hash
 	ORDER BY descs.t DESC
 	LIMIT :resultsPerPage
-	OFFSET :pageNum
+	OFFSET :boardOffset
 } response {
 	if 	{$response(desc) == "" } {
 		set imgDesc "No fun part"
@@ -44,15 +41,14 @@ db eval {
 
 	set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
 
-	puts "\[I|${imgDesc} - $t|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
+	puts "\[I|${imgDesc} (added $t)|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
 	puts "\[I|Source|URL:${response(url)}|server|port\]"
 	puts ""
 	
 }
 
-puts "------------------------------------------------------------------------"
-puts {[1|Back to the root|/|server|port]}
-puts "[clock format [clock seconds] -format "%H:%M:%S %Y-%m-%d"]"
+puts $nextPage
+puts "\[0|RSS|${baseDir}/rss.cgi|server|port\]"
+puts {[1|To the root|/|server|port]}
 db close
-
 
