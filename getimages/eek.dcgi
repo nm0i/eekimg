@@ -6,6 +6,10 @@ set baseDir "/eekimg"
 package require sqlite3
 sqlite db urlmap.db
 
+proc geomyidaeStrip arg {
+	string map {| \\ [ \\ ] \\} $arg
+}
+
 set pageNum [lindex $argv 1]
 if {$pageNum == {}} {
 	set pageNum 0
@@ -41,7 +45,7 @@ db eval {
 
 	set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
 
-	puts "\[I|${imgDesc} (added $t)|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
+	puts "\[I|[geomyidaeStrip ${imgDesc}] (added $t)|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
 	puts "\[I|Source|URL:${response(url)}|server|port\]"
 	puts ""
 	
