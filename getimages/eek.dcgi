@@ -1,10 +1,7 @@
 #!/usr/bin/tclsh
 
-set resultsPerPage 16
+set resultsPerPage 24
 set baseDir "/eekimg"
-
-package require sqlite3
-sqlite db urlmap.db
 
 proc geomyidaeStrip arg {
 	string map {| \\ [ \\ ] \\} $arg
@@ -29,6 +26,9 @@ puts "Have some images. Page no. $pageNum."
 puts $nextPage
 puts ""
 
+package require sqlite3
+sqlite db urlmap.db
+
 db eval {
 	SELECT descs.hash, desc, descs.t, urlmap.url
 	FROM descs
@@ -48,7 +48,6 @@ db eval {
 	puts "\[I|[geomyidaeStrip ${imgDesc}] (added $t)|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
 	puts "\[I|Source|URL:${response(url)}|server|port\]"
 	puts ""
-	
 }
 
 puts $nextPage
