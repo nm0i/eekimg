@@ -1,6 +1,6 @@
 #!/usr/bin/tclsh
 
-set resultsPerPage 24
+set resultsPerPage 16
 set baseDir "/eekimg"
 
 proc geomyidaeStrip arg {
@@ -22,8 +22,8 @@ set scriptName [file tail [info script]]
 set boardOffset [expr {$resultsPerPage * $pageNum}]
 set nextPage "\[1|Next page|${baseDir}/eek.dcgi?[expr {$pageNum + 1}]|server|port\]"
 
+puts {[1|To the root|/|server|port]}
 puts "Have some images. Page no. $pageNum."
-puts $nextPage
 puts ""
 
 package require sqlite3
@@ -51,7 +51,11 @@ db eval {
 }
 
 puts $nextPage
+
 puts "\[0|RSS|${baseDir}/rss.cgi|server|port\]"
-puts {[1|To the root|/|server|port]}
+puts {}
+puts {How to post?}
+puts {Put link somewhere on IRC and maybies it'll appear here one day}
+
 db close
 
