@@ -13,7 +13,7 @@ set resultsPerPage [::ncgi::value pp 1]
 
 ::ncgi::header {text/html; charset=utf-8}
 
-if { ($pageNum < 0) || ($pageNum > 1000) } {
+if { ($pageNum < 0) || ($pageNum > 65536) } {
 	puts "Out of range"
 	exit
 }
@@ -57,16 +57,20 @@ puts {<!DOCTYPE html>}
 puts {<html xmlns="http://www.w3.org/1999/HTML" lang="en" xml:lang="en">}
 puts {<!-- L29ah stinks -->}
 puts {  <head>}
-puts {    <meta charset="UTF-8"/>}
+puts {    <meta charset="utf-8"/>}
 puts {    <link rel="alternate" title="EEK! Image board. RSS feed." href="rss.tcl" type="application/rss+xml"/>}
 puts {	  <title>EEK! Image board!</title>}
+puts {	  <link rel="stylesheet" href="web.css"/>}
 puts {  </head>}
 puts {  <body>}
-puts {    <section>}
+puts {    <main>}
 puts "    <a href=\"$scriptName\">"
 puts {    <h1>Eek! Image Board!</h1>}
 puts {    </a>}
+puts {    <div id="pageSelector">}
 puts "    Navigate: $pageSelector<br\>"
+puts {    </div>}
+puts {    <section id="images">}
 
 db eval {
 	SELECT descs.hash, desc, descs.t, urlmap.url
@@ -84,7 +88,7 @@ db eval {
 
 	set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
 	
-	puts {      <section>}
+	puts {      <section id="imgContainer">}
 	puts "      <h1>$imgDesc</h1>"
 	if {$pageNum != $pageCount} {
 		puts "        <a href=\"${scriptName}?p=[expr {$pageNum + 1}]\">"
@@ -102,10 +106,14 @@ db eval {
 	puts {}
 	
 }
-puts "    <br/>tap image for next<br/>"
-puts "    Navigate: ${pageSelector}<br/>"
-puts "    <a href=\"rss.tcl\">RSS</a><br/>"
+
 puts {    </section>}
+puts "    <br/>tap image for next<br/>"
+puts {    <div id="pageSelector">}
+puts "    Navigate: $pageSelector<br\>"
+puts {    </div>}
+puts "    <a href=\"rss.tcl\">RSS</a><br/>"
+puts {    </main>}
 puts {  </body>}
 puts {</html>}
 
