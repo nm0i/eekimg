@@ -93,7 +93,7 @@ while {[gets $fileListing line] != -1} {
     vt::sda_fgwhite
 
     gets stdin imgDesc
-    if {$imgDesc == "r"} {
+    if {$imgDesc == "r" || $imgDesc == ""} {
         vt::sda_fgmagenta
         vt::wr "Removing file images/${line}\n"
         file delete -- "images/${line}"

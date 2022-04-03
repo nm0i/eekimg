@@ -7,10 +7,10 @@ vt::init
 cd [file dirname [file normalize [info script]]]
 
 package require sha256
-package require Tclx
 
 package require sqlite3
-sqlite db urlmap.db
+auto_load sqlite3
+sqlite3 db urlmap.db
 
 catch {
 	db eval {
