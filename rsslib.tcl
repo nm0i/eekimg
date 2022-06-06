@@ -3,7 +3,7 @@
 set resultsPerPage 30
 
 package require sqlite3
-sqlite db urlmap.db
+sqlite3 db urlmap.db
 
 set scriptName [file tail [info script]]
 
