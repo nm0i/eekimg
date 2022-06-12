@@ -46,7 +46,7 @@ db eval {
 	set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
 
 	puts "\[I|[geomyidaeStrip ${imgDesc}] (added $t)|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
-	puts "\[I|  (source)|URL:${response(url)}|server|port\]"
+	puts "\[h|  (source)|URL:${response(url)}|server|port\]"
 	puts ""
 }
 
