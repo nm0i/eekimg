@@ -1,16 +1,17 @@
 Simple dcgi gopher imageboard. Requires geomyidae to run, but code can
 adapted to any other gopherd.
 
-Requirements: tcllib (term), sqlite3 (with tcl support)
+Requirements: tcllib (term), sqlite3 (with tcl support), wget (to use get.tcl)
 
 Board scripts:
 
   eek.dcgi -- dcgi (geomyidae) backend for the board.
 
-  rss.cgi, rsslib.tcl, rss.tcl -- rss backend for the board.
+  rss.cgi -- rss backend for the board.
 
-Helper scripts:
+Service scripts:
 
   get.tcl -- Pulls images out of list stored in urls.txt. requires wget.
 
   categorize.tcl -- Categorizes retrieved images, scales thumbnails and adds titles. Requires feh, imagemagic.
+
