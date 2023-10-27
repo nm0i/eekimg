@@ -67,14 +67,6 @@ while {[gets $fileListing line] != -1} {
     vt::sda_fggreen
     vt::wr "URL: $response\n"
 
-    if {[regexp "discordapp" $response] || [regexp "catbox" $response] } {
-        vt::sda_fgred
-        vt::wr "Probably shitty, skipping.\n"
-        file delete -- "images/${line}"
-        continue
-    }
-
-
     # If image viewer fails it most likely corrupted file or not an
     # image at all, so removing its file. Implies having image viewer
     # that can have non-zero exit...
