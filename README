@@ -1,5 +1,5 @@
 Simple dcgi gopher imageboard. Requires geomyidae to run, but code can
-adopted to any other gopherd.
+adapted to any other gopherd.
 
 Requirements: tcllib (term), sqlite3 (with tcl support)
 
