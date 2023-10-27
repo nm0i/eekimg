@@ -4,6 +4,7 @@ urlmap.db
 files.txt
 urls.txt
 web.html
+sync.sh
 
 /getimages/sync.sh
 /getimages/.categorize_history
