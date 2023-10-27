@@ -4,17 +4,17 @@ set resultsPerPage 16
 set baseDir "/eekimg"
 
 proc geomyidaeStrip arg {
-	string map {| \\ [ \\ ] \\} $arg
+    string map {| \\ [ \\ ] \\} $arg
 }
 
 set pageNum [lindex $argv 1]
 if {$pageNum == {}} {
-	set pageNum 0
+    set pageNum 0
 }
 
 if {! [regexp {^[0-9]+$} $pageNum ] } {
-	puts "Malformed query"
-	exit
+    puts "Malformed query"
+    exit
 }
 
 set scriptName [file tail [info script]]
@@ -30,24 +30,24 @@ package require sqlite3
 sqlite3 db urlmap.db
 
 db eval {
-	SELECT descs.hash, desc, descs.t, urlmap.url
-	FROM descs
-	INNER JOIN urlmap on urlmap.hash = descs.hash
-	ORDER BY descs.t DESC
-	LIMIT :resultsPerPage
-	OFFSET :boardOffset
+    SELECT descs.hash, desc, descs.t, urlmap.url
+    FROM descs
+    INNER JOIN urlmap on urlmap.hash = descs.hash
+    ORDER BY descs.t DESC
+    LIMIT :resultsPerPage
+    OFFSET :boardOffset
 } response {
-	if 	{$response(desc) == "" } {
-		set imgDesc "No fun part"
-	} {
-		set imgDesc $response(desc)
-	}
+    if      {$response(desc) == "" } {
+        set imgDesc "No fun part"
+    } {
+        set imgDesc $response(desc)
+    }
 
-	set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
+    set t [clock format $response(t)  -format "%Y-%m-%d %H:%M"]
 
-	puts "\[I|[geomyidaeStrip ${imgDesc}] (added $t)|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
-	puts "\[h|  (source)|URL:${response(url)}|server|port\]"
-	puts ""
+    puts "\[I|[geomyidaeStrip ${imgDesc}] (added $t)|${baseDir}/thumbs/${response(hash)}.jpg|server|port\]"
+    puts "\[h|  (source)|URL:${response(url)}|server|port\]"
+    puts ""
 }
 
 puts $nextPage

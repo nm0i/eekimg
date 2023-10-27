@@ -31,7 +31,7 @@ while {[gets $fileURLS line] != -1} {
     catch {
 
         incr i
-        
+
         set response [db eval {
             SELECT * FROM urlmap WHERE hash = :key
         }]
@@ -43,7 +43,7 @@ while {[gets $fileURLS line] != -1} {
         }
 
         set now [clock seconds]
-        
+
         vt::sda_fgwhite
         vt::wr "$i "
         vt::sda_fgyellow
@@ -53,11 +53,11 @@ while {[gets $fileURLS line] != -1} {
         vt::sda_fgyellow
         vt::wr "$line\n"
         db eval {
-            INSERT OR REPLACE INTO urlmap (hash,url,t) VALUES (:key,:line,:now);                         
+            INSERT OR REPLACE INTO urlmap (hash,url,t) VALUES (:key,:line,:now);
         }
 
-        puts $fileListing $key		
-        
+        puts $fileListing $key
+
         vt::sda_fgblue
         exec -ignorestderr wget --timeout=10 --tries=1 -U "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36" --no-check-certificate $line -O "images/${key}"
         sleep 1
@@ -68,4 +68,3 @@ db close
 close $fileURLS
 close $fileListing
 vt::sda_reset
-
